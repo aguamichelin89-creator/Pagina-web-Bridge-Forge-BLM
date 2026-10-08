@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridge Forge BLM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron (Retro Headlines) & Rajdhani / Inter (Body & UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        synth: {
+                            bg: '#0a0915',
+                            darker: '#05040a',
+                            card: '#120f26',
+                            border: '#281c52',
+                            purple: '#8b5cf6',
+                            neonPurple: '#d946ef',
+                            violet: '#a855f7',
+                            electricBlue: '#2563eb',
+                            deepBlue: '#1e1b4b',
+                            cyan: '#06b6d4',
+                            brightCyan: '#22d3ee'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom 80s Retro-Modern Synthwave Styling & Glow Effects */
+        :root {
+            --neon-blue: #00f0ff;
+            --neon-purple: #bd00ff;
+            --neon-pink: #ff007f;
+            --bg-deep: #070611;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(189, 0, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Retro Horizon Grid Grid */
+        .retro-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(139, 92, 246, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(139, 92, 246, 0.12) 1px, transparent 1px);
+        }
+
+        .retro-grid-perspective {
+            perspective: 500px;
+        }
+        .retro-grid-floor {
+            transform: rotateX(65deg);
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(189, 0, 255, 0.25) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 90%);
+        }
+
+        /* Neon Glow Utility Classes */
+        .glow-text-cyan {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.7), 0 0 20px rgba(6, 182, 212, 0.4);
+        }
+        .glow-text-purple {
+            text-shadow: 0 0 10px rgba(217, 70, 239, 0.7), 0 0 20px rgba(217, 70, 239, 0.4);
+        }
+        
+        .glow-box-cyan {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.35), inset 0 0 15px rgba(6, 182, 212, 0.15);
+        }
+        .glow-box-purple {
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.35), inset 0 0 10px rgba(189, 0, 255, 0.15);
+        }
+
+        .neon-border-gradient {
+            border: 1px solid transparent;
+            background: linear-gradient(#120f26, #120f26) padding-box,
+                        linear-gradient(135deg, rgba(6, 182, 212, 0.6), rgba(189, 0, 255, 0.6)) border-box;
+        }
+
+        /* Glassmorphism synth cards */
+        .synth-card {
+            background: rgba(18, 15, 38, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .synth-card:hover {
+            border-color: rgba(6, 182, 212, 0.8);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.3), 0 0 20px rgba(189, 0, 255, 0.2);
+        }
+
+        /* Scanline effect optional overlay */
+        .scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 38, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05040a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #281c52;
+            border-radius: 4px;
+            border: 1px solid #06b6d4;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col font-sans selection:bg-synth-cyan selection:text-black">
+
+    <!-- Subtle scanline texture layer -->
+    <div class="pointer-events-none fixed inset-0 z-50 scanlines opacity-40"></div>
+
+    <header class="sticky top-0 z-40 bg-synth-darker/90 backdrop-blur-md border-b border-synth-purple/30 shadow-lg shadow-purple-950/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Retro Logo -->
+                <a href="#inicio" class="flex items-center gap-3 group">
+                    <div class="relative w-12 h-12 rounded-full p-0.5 glow-box-cyan transform group-hover:scale-105 transition-all">
+                        <!-- SVG Replicating the provided emblem logo -->
+                        <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#22d3ee" />
+                                    <stop offset="50%" stop-color="#a855f7" />
+                                    <stop offset="100%" stop-color="#d946ef" />
+                                </linearGradient>
+                                <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#06b6d4" />
+                                    <stop offset="50%" stop-color="#e879f9" />
+                                    <stop offset="100%" stop-color="#38bdf8" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Outer Circular Frame -->
+                            <circle cx="150" cy="150" r="140" fill="#0b091a" stroke="url(#logoGrad)" stroke-width="4"/>
+                            <circle cx="150" cy="150" r="132" fill="none" stroke="#281c52" stroke-width="1.5" stroke-dasharray="4 2"/>
+                            
+                            <!-- Heartbeat Pulse Line behind B -->
+                            <path d="M 30 150 L 95 150 L 105 130 L 115 170 L 125 120 L 135 180 L 145 140 L 155 160 L 165 150 L 270 150" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+                            
+                            <!-- Ornaments Filigree Mockup Top & Bottom -->
+                            <path d="M 80 60 C 110 40, 190 40, 220 60 C 190 50, 110 50, 80 60 Z" fill="url(#logoGrad)" opacity="0.6"/>
+                            <path d="M 80 240 C 110 250, 190 250, 220 240 C 190 245, 110 245, 80 240 Z" fill="url(#logoGrad)" opacity="0.6"/>
+
+                            <!-- Script B Letter -->
+                            <text x="150" y="165" font-family="'Brush Script MT', 'Great Vibes', cursive, sans-serif" font-size="115" font-weight="bold" fill="url(#metalGrad)" text-anchor="middle" font-style="italic" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8));">B</text>
+                            
+                            <!-- Text BridgeForge underneath inside the emblem -->
+                            <text x="150" y="215" font-family="'Orbitron', sans-serif" font-size="20" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">BridgeForge</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-orbitron font-extrabold text-2xl tracking-wider text-white">
+                            BRIDGE <span class="text-transparent bg-clip-text bg-gradient-to-r from-synth-brightCyan to-synth-neonPurple glow-text-cyan">FORGE</span>
+                        </span>
+                        <span class="text-[10px] font-orbitron bg-synth-purple/20 text-synth-brightCyan border border-synth-cyan/40 px-2 py-0.5 rounded ml-2 tracking-widest uppercase">
+                            BLM
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 font-rajdhani text-lg tracking-wide">
+                    <a href="#inicio" class="text-slate-300 hover:text-synth-brightCyan transition-colors hover:glow-text-cyan py-1 border-b-2 border-transparent hover:border-synth-brightCyan">INICIO</a>
+                    <a href="#cursos" class="text-slate-300 hover:text-synth-brightCyan transition-colors hover:glow-text-cyan py-1 border-b-2 border-transparent hover:border-synth-brightCyan">OFICIOS</a>
+                    <a href="#nosotros" class="text-slate-300 hover:text-synth-brightCyan transition-colors hover:glow-text-cyan py-1 border-b-2 border-transparent hover:border-synth-brightCyan">NOSOTROS</a>
+                    <a href="#testimonios" class="text-slate-300 hover:text-synth-brightCyan transition-colors hover:glow-text-cyan py-1 border-b-2 border-transparent hover:border-synth-brightCyan">TESTIMONIOS</a>
+                    <a href="#contacto" class="text-slate-300 hover:text-synth-brightCyan transition-colors hover:glow-text-cyan py-1 border-b-2 border-transparent hover:border-synth-brightCyan">CONTACTO</a>
+                </nav>
+
+                <!-- Auth Controls -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Guest View -->
+                    <div id="guestNav" class="flex items-center space-x-3">
+                        <button onclick="openModal('login')" class="font-rajdhani font-bold text-slate-200 hover:text-synth-brightCyan px-4 py-2 rounded-lg transition-all text-base uppercase tracking-wider">
+                            Acceder
+                        </button>
+                        <button onclick="openModal('register')" class="font-orbitron text-xs font-bold text-black bg-gradient-to-r from-synth-brightCyan via-cyan-400 to-synth-neonPurple hover:opacity-90 px-5 py-2.5 rounded-lg shadow-lg shadow-cyan-500/30 hover:glow-box-cyan transition-all transform hover:-translate-y-0.5 uppercase tracking-wider">
+                            Registrarse
+                        </button>
+                    </div>
+
+                    <!-- Logged In View -->
+                    <div id="userNav" class="hidden items-center space-x-4">
+                        <div class="flex items-center space-x-3 bg-synth-card border border-synth-cyan/40 px-3.5 py-1.5 rounded-lg glow-box-cyan">
+                            <div class="w-8 h-8 bg-gradient-to-r from-synth-cyan to-synth-purple text-black font-orbitron font-extrabold rounded-md flex items-center justify-center text-sm" id="userAvatar">
+                                U
+                            </div>
+                            <span class="font-rajdhani font-bold text-slate-200 text-base" id="userNameDisplay">Usuario</span>
+                        </div>
+                        <button onclick="logout()" class="font-rajdhani font-semibold text-xs text-rose-400 hover:text-rose-300 bg-rose-950/40 hover:bg-rose-900/60 px-3 py-2 rounded-lg transition-all border border-rose-800/50" title="Cerrar Sesión">
+                            <i class="fa-solid fa-power-off mr-1"></i> SALIR
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button type="button" onclick="toggleMobileMenu()" class="text-synth-brightCyan hover:text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars-staggered text-2xl" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Dropping -->
+        <div id="mobileMenu" class="hidden md:hidden bg-synth-darker border-b border-synth-purple/40 px-6 py-6 space-y-4 font-rajdhani text-lg">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-synth-brightCyan">INICIO</a>
+            <a href="#cursos" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-synth-brightCyan">OFICIOS</a>
+            <a href="#nosotros" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-synth-brightCyan">NOSOTROS</a>
+            <a href="#testimonios" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-synth-brightCyan">TESTIMONIOS</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-synth-brightCyan">CONTACTO</a>
+            <div class="pt-4 border-t border-synth-border flex flex-col gap-3" id="mobileAuthContainer">
+                <!-- Mobile Auth Loaded via JS -->
+            </div>
+        </div>
+    </header>
+
+    <section id="inicio" class="relative bg-synth-darker pt-16 pb-28 overflow-hidden border-b border-synth-purple/30">
+        <!-- 80s Grid Background Animation Floor -->
+        <div class="absolute inset-0 retro-grid opacity-30 pointer-events-none"></div>
+        <div class="absolute -bottom-20 left-0 right-0 h-64 retro-grid-perspective overflow-hidden pointer-events-none opacity-40">
+            <div class="w-full h-full retro-grid-floor"></div>
+        </div>
+
+        <!-- Neon Ambient Glow Orbs -->
+        <div class="absolute top-1/4 left-10 w-96 h-96 bg-synth-purple/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-synth-cyan/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-synth-card border border-synth-cyan/50 text-synth-brightCyan text-xs font-orbitron tracking-widest uppercase glow-box-cyan">
+                        <i class="fa-solid fa-bolt text-synth-neonPurple"></i> Habilidades Útiles Para El Mundo Real
+                    </div>
+                    
+                    <h1 class="font-orbitron text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none uppercase text-white">
+                        FORJA TU FUTURO CON <span class="text-transparent bg-clip-text bg-gradient-to-r from-synth-brightCyan via-cyan-300 to-synth-neonPurple glow-text-cyan">OFICIOS Y HABILIDADES</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-lg sm:text-xl font-rajdhani font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+                        En <strong class="text-synth-brightCyan">Bridge Forge BLM</strong> fusionamos el aprendizaje práctico de los oficios esenciales con metodologías modernas: Electricidad, Fontanería, Carpintería, Mecánica y Finanzas Personales.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4 font-orbitron text-xs">
+                        <a href="#cursos" class="bg-gradient-to-r from-synth-cyan to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold px-8 py-4 rounded-xl shadow-xl shadow-cyan-500/20 hover:glow-box-cyan transition-all text-center tracking-wider uppercase transform hover:-translate-y-0.5">
+                            EXPLORAR CATÁLOGO <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                        <button onclick="openModal('register')" class="bg-synth-card hover:bg-synth-border text-slate-200 font-bold px-8 py-4 rounded-xl border border-synth-purple/50 transition-all text-center tracking-wider uppercase hover:border-synth-brightCyan">
+                            REGISTRO GRATUITO
+                        </button>
+                    </div>
+
+                    <!-- Cyber Stats Bar -->
+                    <div class="pt-8 grid grid-cols-3 gap-4 border-t border-synth-purple/30 max-w-lg mx-auto lg:mx-0">
+                        <div>
+                            <div class="font-orbitron font-extrabold text-2xl text-synth-brightCyan glow-text-cyan">+100%</div>
+                            <div class="font-rajdhani text-xs text-slate-400 uppercase tracking-widest">Práctico</div>
+                        </div>
+                        <div>
+                            <div class="font-orbitron font-extrabold text-2xl text-synth-neonPurple glow-text-purple">+2.5k</div>
+                            <div class="font-rajdhani text-xs text-slate-400 uppercase tracking-widest">Estudiantes</div>
+                        </div>
+                        <div>
+                            <div class="font-orbitron font-extrabold text-2xl text-amber-400">4.9 / 5</div>
+                            <div class="font-rajdhani text-xs text-slate-400 uppercase tracking-widest">Valoración</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Graphic Frame -->
+                <div class="relative flex justify-center">
+                    <div class="relative w-full max-w-lg bg-synth-card p-6 rounded-3xl border-2 border-synth-cyan/40 glow-box-cyan flex flex-col items-center">
+                        <!-- Neon Badge Overlay -->
+                        <div class="absolute -top-4 -right-4 bg-synth-neonPurple text-white font-orbitron text-[10px] font-black px-3 py-1.5 rounded-md shadow-lg tracking-widest uppercase rotate-3">
+                            LOGO OFICIAL
+                        </div>
+
+                        <!-- Large Emblem Display -->
+                        <div class="relative rounded-2xl p-6 bg-slate-950/80 border border-synth-purple/40 w-full flex flex-col items-center justify-center">
+                            <div class="w-48 h-48 sm:w-56 sm:h-56 relative group">
+                                <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-[0_0_20px_rgba(6,182,212,0.6)] transform group-hover:scale-105 transition-transform duration-500" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="heroLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#22d3ee" />
+                                            <stop offset="50%" stop-color="#a855f7" />
+                                            <stop offset="100%" stop-color="#d946ef" />
+                                        </linearGradient>
+                                        <linearGradient id="heroMetalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#06b6d4" />
+                                            <stop offset="50%" stop-color="#f0abfc" />
+                                            <stop offset="100%" stop-color="#38bdf8" />
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Outer Circular Frame -->
+                                    <circle cx="150" cy="150" r="140" fill="#090818" stroke="url(#heroLogoGrad)" stroke-width="5"/>
+                                    <circle cx="150" cy="150" r="130" fill="none" stroke="#281c52" stroke-width="2" stroke-dasharray="6 3"/>
+                                    
+                                    <!-- Heartbeat Pulse Line -->
+                                    <path d="M 25 150 L 90 150 L 102 125 L 114 175 L 126 115 L 138 185 L 148 135 L 158 165 L 168 150 L 275 150" fill="none" stroke="url(#heroLogoGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                                    
+                                    <!-- Filigree Ornaments -->
+                                    <path d="M 75 55 C 110 35, 190 35, 225 55 C 190 45, 110 45, 75 55 Z" fill="url(#heroLogoGrad)" opacity="0.7"/>
+                                    <path d="M 75 245 C 110 255, 190 255, 225 245 C 190 250, 110 250, 75 245 Z" fill="url(#heroLogoGrad)" opacity="0.7"/>
+
+                                    <!-- Script B Letter -->
+                                    <text x="150" y="168" font-family="'Brush Script MT', 'Great Vibes', cursive, sans-serif" font-size="120" font-weight="bold" fill="url(#heroMetalGrad)" text-anchor="middle" font-style="italic" style="filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.9));">B</text>
+                                    
+                                    <!-- Text BridgeForge -->
+                                    <text x="150" y="218" font-family="'Orbitron', sans-serif" font-size="21" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">BridgeForge</text>
+                                </svg>
+                            </div>
+                            
+                            <!-- Synth HUD Overlay elements -->
+                            <div class="mt-6 w-full bg-synth-darker/90 backdrop-blur-md p-3.5 rounded-xl border border-synth-cyan/30 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+                                    <span class="font-rajdhani text-sm font-bold text-slate-200">Emblema Oficial Bridge Forge BLM</span>
+                                </div>
+                                <span class="font-orbitron text-[10px] text-synth-brightCyan">VERIFICADO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="cursos" class="py-20 bg-synth-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="font-orbitron text-xs font-bold text-synth-neonPurple uppercase tracking-widest glow-text-purple">Catálogo de Especialidades</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl font-extrabold text-white uppercase mt-2 tracking-wide">
+                    Módulos y Oficios <span class="text-synth-brightCyan glow-text-cyan">Funcionales</span>
+                </h2>
+                <p class="font-rajdhani text-lg text-slate-300 mt-3">
+                    Selecciona la habilidad que deseas dominar hoy. Diseñados para aplicar inmediatamente en el hogar o tu propio emprendimiento.
+                </p>
+            </div>
+
+            <!-- Search and Cyber Filter Controls -->
+            <div class="mb-12 flex flex-col lg:flex-row gap-5 justify-between items-center bg-synth-card p-5 rounded-2xl border border-synth-purple/40 glow-box-purple">
+                
+                <!-- Search input bar -->
+                <div class="relative w-full lg:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-synth-brightCyan"></i>
+                    <input type="text" id="searchInput" onkeyup="filterCourses()" placeholder="Buscar oficio (ej. Electricidad, Fontanería)..." class="w-full pl-11 pr-4 py-3 bg-synth-darker border border-synth-border rounded-xl text-slate-200 placeholder-slate-500 font-rajdhani text-base focus:outline-none focus:border-synth-brightCyan focus:ring-1 focus:ring-synth-brightCyan transition-all">
+                </div>
+
+                <!-- Category Neon Filter Pills -->
+                <div class="flex flex-wrap gap-2.5 w-full lg:w-auto font-rajdhani font-bold text-sm" id="categoryButtons">
+                    <button onclick="setCategory('all')" class="category-btn active px-4 py-2 rounded-xl bg-gradient-to-r from-synth-cyan to-blue-600 text-black font-extrabold transition-all">TODOS</button>
+                    <button onclick="setCategory('mantenimiento')" class="category-btn px-4 py-2 rounded-xl bg-synth-darker text-slate-300 border border-synth-border hover:border-synth-brightCyan hover:text-synth-brightCyan transition-all">HOGAR & MANTENIMIENTO</button>
+                    <button onclick="setCategory('construccion')" class="category-btn px-4 py-2 rounded-xl bg-synth-darker text-slate-300 border border-synth-border hover:border-synth-brightCyan hover:text-synth-brightCyan transition-all">CONSTRUCCIÓN & MADERA</button>
+                    <button onclick="setCategory('finanzas')" class="category-btn px-4 py-2 rounded-xl bg-synth-darker text-slate-300 border border-synth-border hover:border-synth-brightCyan hover:text-synth-brightCyan transition-all">FINANZAS & SERVICIOS</button>
+                </div>
+            </div>
+
+            <!-- Courses Grid Output -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="coursesGrid">
+                <!-- Injected dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="py-20 bg-synth-darker border-y border-synth-purple/30 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                
+                <div>
+                    <span class="font-orbitron text-xs font-bold text-synth-brightCyan tracking-widest uppercase glow-text-cyan">NUESTRA FILOSOFÍA</span>
+                    <h2 class="font-orbitron text-3xl sm:text-4xl font-extrabold text-white uppercase mt-2 mb-6">
+                        El Puente entre el <span class="text-synth-neonPurple glow-text-purple">saber</span> y el <span class="text-synth-brightCyan glow-text-cyan">hacer</span>
+                    </h2>
+                    <p class="font-rajdhani text-slate-300 text-lg leading-relaxed mb-8">
+                        En <strong>Bridge Forge BLM</strong> nos alejamos de las teorías vacías. Entrenamos a las personas en habilidades técnicas tangibles. Nuestra plataforma retro-futurista combina la disciplina de los talleres tradicionales con herramientas digitales modernas.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 rounded-xl bg-synth-card border border-synth-cyan/40 text-synth-brightCyan flex items-center justify-center font-bold text-xl flex-shrink-0 glow-box-cyan">
+                                <i class="fa-solid fa-wrench"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-orbitron text-white font-bold text-base">Práctica Directa desde el Día 1</h3>
+                                <p class="font-rajdhani text-slate-400 text-base mt-1">Videos interactivos guiados en alta definición centrados en la manipulación correcta de herramientas físicas reales.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 rounded-xl bg-synth-card border border-synth-neonPurple/40 text-synth-neonPurple flex items-center justify-center font-bold text-xl flex-shrink-0 glow-box-purple">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-orbitron text-white font-bold text-base">Seguridad y Normativa</h3>
+                                <p class="font-rajdhani text-slate-400 text-base mt-1">Enfoque prioritario en prevención de accidentes domésticos e industriales durante cualquier trabajo técnico.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 rounded-xl bg-synth-card border border-amber-500/40 text-amber-400 flex items-center justify-center font-bold text-xl flex-shrink-0">
+                                <i class="fa-solid fa-coins"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-orbitron text-white font-bold text-base">Monetización y Cotización</h3>
+                                <p class="font-rajdhani text-slate-400 text-base mt-1">Aprende a calcular materiales, cobro por hora laborada y atención al cliente independiente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="bg-synth-card p-6 rounded-3xl border border-synth-purple/40 glow-box-purple">
+                        <div class="aspect-video rounded-2xl overflow-hidden bg-slate-950 relative border border-synth-cyan/30">
+                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80" alt="Taller práctico de oficios" class="w-full h-full object-cover opacity-70">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <button onclick="showToast('Demostración de Video Interactivo Bridge Forge BLM')" class="w-16 h-16 rounded-full bg-gradient-to-r from-synth-cyan to-synth-neonPurple text-black flex items-center justify-center shadow-xl hover:scale-110 transition-transform glow-box-cyan">
+                                    <i class="fa-solid fa-play text-xl ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center bg-synth-darker p-4 rounded-xl border border-synth-border font-rajdhani">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Taller de Certificación 80s Synth</h4>
+                                <p class="text-xs text-slate-400">Acceso Ilimitado • Evaluaciones Prácticas</p>
+                            </div>
+                            <span class="font-orbitron text-xs bg-synth-cyan/20 text-synth-brightCyan border border-synth-cyan/40 px-3 py-1 rounded-full">ACTIVO</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios" class="py-20 bg-synth-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="font-orbitron text-xs font-bold text-synth-brightCyan tracking-widest uppercase glow-text-cyan">Opiniones de la Comunidad</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl font-extrabold text-white uppercase mt-2">Casos de Éxito Real</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 font-rajdhani">
+                
+                <div class="synth-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-400 gap-1.5 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-base italic mb-6">
+                            "Con el curso de Electricidad Domiciliaria no solo arreglé toda la instalación eléctrica de mi casa, sino que ya estoy haciendo mis primeras cotizaciones a vecinos."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-synth-purple/30 pt-4">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-synth-cyan to-synth-purple text-black font-orbitron font-extrabold flex items-center justify-center text-sm">
+                            RM
+                        </div>
+                        <div>
+                            <h4 class="font-orbitron text-sm font-bold text-white">Ricardo Mendoza</h4>
+                            <p class="text-xs text-synth-brightCyan">Electricidad Residencial</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="synth-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-400 gap-1.5 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-base italic mb-6">"La carpintería me apasionaba pero no sabía por dónde empezar. El módulo paso a paso es increíblemente claro. Construí mi primer escritorio."</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-synth-purple/30 pt-4">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-synth-neonPurple to-pink-500 text-black font-orbitron font-extrabold flex items-center justify-center text-sm">
+                            CG
+                        </div>
+                        <div>
+                            <h4 class="font-orbitron text-sm font-bold text-white">Camila Gómez</h4>
+                            <p class="text-xs text-synth-neonPurple">Carpintería Moderna</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="synth-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-400 gap-1.5 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-base italic mb-6">"El módulo de finanzas del hogar me ayudó a organizar los cobros de mis reparaciones de fontanería. ¡Bridge Forge BLM vale totalmente la pena!"</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-synth-purple/30 pt-4">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-blue-500 to-synth-cyan text-black font-orbitron font-extrabold flex items-center justify-center text-sm">
+                            JL
+                        </div>
+                        <div>
+                            <h4 class="font-orbitron text-sm font-bold text-white">Jorge López</h4>
+                            <p class="text-xs text-synth-brightCyan">Finanzas Técnicas</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-20 bg-synth-darker border-t border-synth-purple/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto bg-synth-card rounded-3xl p-8 sm:p-12 border-2 border-synth-purple/40 glow-box-purple relative overflow-hidden">
+                <div class="grid md:grid-cols-2 gap-10 items-center relative z-10">
+                    
+                    <div>
+                        <span class="font-orbitron text-xs font-bold text-synth-brightCyan tracking-widest uppercase glow-text-cyan">CANAL DIRECTO</span>
+                        <h2 class="font-orbitron text-3xl font-extrabold text-white uppercase mt-2 mb-4">¿Preguntas sobre algún oficio?</h2>
+                        <p class="font-rajdhani text-slate-300 text-base mb-6">
+                            Escríbenos y nuestro equipo pedagógico te indicará el plan de estudios ideal para tus metas.
+                        </p>
+                        <div class="space-y-4 font-rajdhani text-base text-slate-300">
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-envelope text-synth-brightCyan"></i> contacto@bridgeforgeblm.com</p>
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-phone text-synth-neonPurple"></i> +1 (800) 555-FORGE</p>
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-synth-brightCyan"></i> Campus Virtual Synth 80s</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form onsubmit="handleContact(event)" class="bg-synth-darker p-6 rounded-2xl border border-synth-border space-y-4 font-rajdhani">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Nombre Completo</label>
+                            <input type="text" required placeholder="Tu nombre" class="w-full bg-synth-card border border-synth-border rounded-lg px-3.5 py-2.5 text-white text-base focus:outline-none focus:border-synth-brightCyan">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Correo Electrónico</label>
+                            <input type="email" required placeholder="correo@ejemplo.com" class="w-full bg-synth-card border border-synth-border rounded-lg px-3.5 py-2.5 text-white text-base focus:outline-none focus:border-synth-brightCyan">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Mensaje o Consulta</label>
+                            <textarea rows="3" required placeholder="¿En qué especialidad estás interesado?" class="w-full bg-synth-card border border-synth-border rounded-lg px-3.5 py-2.5 text-white text-base focus:outline-none focus:border-synth-brightCyan"></textarea>
+                        </div>
+                        <button type="submit" class="w-full font-orbitron text-xs font-bold bg-gradient-to-r from-synth-brightCyan to-blue-600 hover:opacity-90 text-black py-3 rounded-lg uppercase tracking-wider shadow-lg shadow-cyan-500/20 transition-all">
+                            ENVIAR MENSAJE <i class="fa-solid fa-paper-plane ml-1"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-synth-darker text-slate-400 py-12 border-t border-synth-purple/40 font-rajdhani">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 text-white font-orbitron font-bold text-lg">
+                        <div class="w-7 h-7 bg-gradient-to-tr from-synth-cyan to-synth-purple rounded flex items-center justify-center text-black text-xs">
+                            <i class="fa-solid fa-hammer"></i>
+                        </div>
+                        BRIDGE FORGE BLM
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Plataforma retro-futurista orientada a capacitar personas en artes, oficios prácticos y habilidades reales de vida.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-orbitron text-white text-xs font-bold uppercase tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#inicio" class="hover:text-synth-brightCyan transition-colors">Inicio</a></li>
+                        <li><a href="#cursos" class="hover:text-synth-brightCyan transition-colors">Catálogo de Oficios</a></li>
+                        <li><a href="#nosotros" class="hover:text-synth-brightCyan transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#testimonios" class="hover:text-synth-brightCyan transition-colors">Testimonios</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-orbitron text-white text-xs font-bold uppercase tracking-wider mb-4">Oficios Destacados</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#cursos" class="hover:text-synth-brightCyan transition-colors">Electricidad Residencial</a></li>
+                        <li><a href="#cursos" class="hover:text-synth-brightCyan transition-colors">Fontanería y Plomería</a></li>
+                        <li><a href="#cursos" class="hover:text-synth-brightCyan transition-colors">Carpintería Práctica</a></li>
+                        <li><a href="#cursos" class="hover:text-synth-brightCyan transition-colors">Finanzas y Cotizaciones</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-orbitron text-white text-xs font-bold uppercase tracking-wider mb-4">Redes Synth 80s</h4>
+                    <div class="flex space-x-3 text-slate-300">
+                        <a href="#" class="w-9 h-9 rounded-lg bg-synth-card border border-synth-border flex items-center justify-center hover:text-synth-brightCyan hover:border-synth-brightCyan transition-all"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-synth-card border border-synth-border flex items-center justify-center hover:text-synth-neonPurple hover:border-synth-neonPurple transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-synth-card border border-synth-border flex items-center justify-center hover:text-synth-brightCyan hover:border-synth-brightCyan transition-all"><i class="fa-brands fa-youtube text-sm"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-synth-border flex flex-col sm:flex-row justify-between items-center text-sm gap-4">
+                <p>&copy; <span id="year"></span> Bridge Forge BLM. Todos los derechos reservados.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white">Términos de Servicio</a>
+                    <a href="#" class="hover:text-white">Política de Privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-synth-card rounded-3xl max-w-md w-full p-6 sm:p-8 border-2 border-synth-cyan/50 glow-box-cyan relative transform transition-all font-rajdhani">
+            
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <!-- Login Tab -->
+            <div id="loginTab">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 bg-synth-darker text-synth-brightCyan rounded-2xl border border-synth-cyan/40 flex items-center justify-center mx-auto mb-3 font-bold text-xl glow-box-cyan">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </div>
+                    <h3 class="font-orbitron text-2xl font-bold text-white uppercase">Acceso Usuarios</h3>
+                    <p class="text-xs text-slate-400 mt-1">Ingresa a tu portal de aprendizaje Bridge Forge BLM</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Correo Electrónico</label>
+                        <input type="email" id="loginEmail" required placeholder="tu@correo.com" class="w-full bg-synth-darker border border-synth-border rounded-xl px-3.5 py-2.5 text-white text-base focus:outline-none focus:border-synth-brightCyan">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Contraseña</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-synth-darker border border-synth-border rounded-xl px-3.5 py-2.5 text-white text-base focus:outline-none focus:border-synth-brightCyan">
+                    </div>
+
+                    <button type="submit" class="w-full font-orbitron text-xs font-bold bg-gradient-to-r from-synth-brightCyan to-blue-600 hover:opacity-90 text-black py-3 rounded-xl uppercase tracking-wider shadow-lg shadow-cyan-500/20 transition-all mt-2">
+                        INGRESAR
+                    </button>
+                </form>
+
+                <p class="text-center text-xs text-slate-400 mt-6">
+                    ¿No tienes cuenta aún? 
+                    <button onclick="switchTab('register')" class="text-synth-brightCyan font-bold hover:underline">Regístrate aquí</button>
+                </p>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="registerTab" class="hidden">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 bg-synth-darker text-synth-neonPurple rounded-2xl border border-synth-neonPurple/40 flex items-center justify-center mx-auto mb-3 font-bold text-xl glow-box-purple">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <h3 class="font-orbitron text-2xl font-bold text-white uppercase">Nuevo Registro</h3>
+                    <p class="text-xs text-slate-400 mt-1">Únete a la plataforma de oficios y habilidades</p>
+                </div>
+
+                <form onsubmit="handleRegister(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Nombre Completo</label>
+                        <input type="text" id="regName" required placeholder="Ej. Ana Martínez" class="w-full bg-synth-darker border border-synth-border rounded-xl px-3.5 py-2 text-white text-base focus:outline-none focus:border-synth-neonPurple">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Correo Electrónico</label>
+                        <input type="email" id="regEmail" required placeholder="tu@correo.com" class="w-full bg-synth-darker border border-synth-border rounded-xl px-3.5 py-2 text-white text-base focus:outline-none focus:border-synth-neonPurple">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Contraseña</label>
+                        <input type="password" id="regPassword" required placeholder="Crear contraseña" class="w-full bg-synth-darker border border-synth-border rounded-xl px-3.5 py-2 text-white text-base focus:outline-none focus:border-synth-neonPurple">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Oficio de Mayor Interés</label>
+                        <select id="regInterest" class="w-full bg-synth-darker border border-synth-border rounded-xl px-3.5 py-2 text-white text-base focus:outline-none focus:border-synth-neonPurple">
+                            <option value="Electricidad">Electricidad Residencial</option>
+                            <option value="Fontanería">Fontanería Avanzada</option>
+                            <option value="Carpintería">Carpintería Práctica</option>
+                            <option value="Electrodomésticos">Mantenimiento Electrónico</option>
+                            <option value="Finanzas">Finanzas y Cotizaciones</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full font-orbitron text-xs font-bold bg-gradient-to-r from-synth-neonPurple via-purple-600 to-pink-600 hover:opacity-90 text-white py-3 rounded-xl uppercase tracking-wider shadow-lg shadow-purple-500/20 transition-all mt-2">
+                        COMPLETAR REGISTRO
+                    </button>
+                </form>
+
+                <p class="text-center text-xs text-slate-400 mt-4">
+                    ¿Ya posees cuenta? 
+                    <button onclick="switchTab('login')" class="text-synth-neonPurple font-bold hover:underline">Inicia sesión</button>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Course Program Modal Preview -->
+    <div id="courseModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-synth-card rounded-3xl max-w-xl w-full p-6 sm:p-8 border-2 border-synth-purple/50 glow-box-purple relative transform transition-all font-rajdhani">
+            <button onclick="closeCourseModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div id="courseModalContent">
+                <!-- Program dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Overlay -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-synth-darker border border-synth-cyan/50 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-synth-border transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none font-rajdhani font-bold text-base glow-box-cyan">
+        <i class="fa-solid fa-circle-check text-synth-brightCyan text-lg" id="toastIcon"></i>
+        <span id="toastMessage">Notificación del sistema</span>
+    </div>
+
+    <script>
+        // Retro Synthwave Courses Data
+        const coursesData = [
+            {
+                id: 1,
+                title: 'Electricidad Residencial y Tableros',
+                category: 'mantenimiento',
+                level: 'Principiante',
+                duration: '14 Horas',
+                description: 'Instalación de circuitos, diagnostico con multímetro, sustitución de interruptores térmicos y normas de seguridad industrial.',
+                icon: 'fa-bolt',
+                badgeColor: 'border-synth-brightCyan text-synth-brightCyan',
+                program: [
+                    'Fundamentos de voltaje y corriente AC/DC',
+                    'Manejo seguro de tableros generales',
+                    'Instalación de tomacorrientes e interruptores',
+                    'Detección de cortocircuitos paso a paso'
+                ]
+            },
+            {
+                id: 2,
+                title: 'Fontanería y Tuberías Avanzadas',
+                category: 'mantenimiento',
+                level: 'Principiante',
+                duration: '12 Horas',
+                description: 'Sistemas de agua fría/caliente, termofusión, sellado de fugas críticas e instalación de grifería moderna.',
+                icon: 'fa-faucet-drip',
+                badgeColor: 'border-synth-neonPurple text-synth-neonPurple',
+                program: [
+                    'Materiales: PVC, CPVC y Termofusión',
+                    'Reparación de filtraciones en muros',
+                    'Instalación de griferías y sanitarios',
+                    'Mantenimiento de bombas de agua'
+                ]
+            },
+            {
+                id: 3,
+                title: 'Carpintería Práctica y Mueblería',
+                category: 'construccion',
+                level: 'Intermedio',
+                duration: '20 Horas',
+                description: 'Corte de maderas, ensambles de precisión, uso de sierra circular, lijado, barnizado y diseño de muebles modulares.',
+                icon: 'fa-hammer',
+                badgeColor: 'border-amber-400 text-amber-400',
+                program: [
+                    'Uso seguro de herramientas eléctricas',
+                    'Ensambles de madera invisibles',
+                    'Técnicas de lijado y barnices sintéticos',
+                    'Fabricación de repisas y escritorios'
+                ]
+            },
+            {
+                id: 4,
+                title: 'Mantenimiento de Electrodomésticos',
+                category: 'mantenimiento',
+                level: 'Intermedio',
+                duration: '16 Horas',
+                description: 'Diagnóstico de lavadoras, microondas y motores eléctricos pequeños. Cambio de rodamientos y tarjetas de control.',
+                icon: 'fa-plug-circle-bolt',
+                badgeColor: 'border-purple-400 text-purple-400',
+                program: [
+                    'Motores monofásicos y condensadores',
+                    'Mantenimiento preventivo de lavadoras',
+                    'Sustitución de fusibles y resistencias',
+                    'Reemplazo de sensores térmicos'
+                ]
+            },
+            {
+                id: 5,
+                title: 'Finanzas Técnicas y Cotizaciones',
+                category: 'finanzas',
+                level: 'Principiante',
+                duration: '10 Horas',
+                description: 'Aprende a calcular el costo real de mano de obra, presupuestar repuestos con margen de ganancia y cobro por servicios.',
+                icon: 'fa-calculator',
+                badgeColor: 'border-emerald-400 text-emerald-400',
+                program: [
+                    'Estructura de costos de repuestos y tiempo',
+                    'Creación de presupuestos profesionales',
+                    'Gestión de cobros y facturación independiente',
+                    'Estrategias de fidelización de clientes'
+                ]
+            },
+            {
+                id: 6,
+                title: 'Resane, Pintura y Acabados de Muros',
+                category: 'construccion',
+                level: 'Principiante',
+                duration: '10 Horas',
+                description: 'Preparación de paredes, curación de humedad, aplicación de pasta para resanar, tipos de rodillos y acabados finos.',
+                icon: 'fa-paint-roller',
+                badgeColor: 'border-rose-400 text-rose-400',
+                program: [
+                    'Tratamiento de grietas y humedad en muros',
+                    'Selección de pinturas vinílicas y esmaltes',
+                    'Técnicas de empaste y lijado fino',
+                    'Acabados profesionales sin manchas'
+                ]
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        // Render Dynamic Course Grid
+        function renderCourses(filterText = '') {
+            const grid = document.getElementById('coursesGrid');
+            grid.innerHTML = '';
+
+            const filtered = coursesData.filter(course => {
+                const matchesCategory = currentCategory === 'all' || course.category === currentCategory;
+                const matchesSearch = course.title.toLowerCase().includes(filterText.toLowerCase()) || 
+                                      course.description.toLowerCase().includes(filterText.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-synth-card rounded-2xl border border-synth-border">
+                        <i class="fa-solid fa-ghost text-4xl text-synth-brightCyan mb-3"></i>
+                        <p class="font-orbitron text-slate-300 font-bold">No se encontraron resultados.</p>
+                        <p class="font-rajdhani text-sm text-slate-500 mt-1">Prueba filtrando por otra palabra clave.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(course => {
+                const card = document.createElement('div');
+                card.className = "synth-card rounded-2xl overflow-hidden flex flex-col justify-between font-rajdhani";
+                card.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-synth-darker border border-synth-cyan/40 text-synth-brightCyan flex items-center justify-center font-bold text-xl glow-box-cyan">
+                                <i class="fa-solid ${course.icon}"></i>
+                            </div>
+                            <span class="font-orbitron text-[10px] font-bold px-2.5 py-1 rounded-md border ${course.badgeColor}">${course.level}</span>
+                        </div>
+                        <h3 class="font-orbitron font-bold text-white text-lg mb-2 group-hover:text-synth-brightCyan transition-colors">${course.title}</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">${course.description}</p>
+                    </div>
+                    <div class="px-6 py-4 bg-synth-darker border-t border-synth-border flex items-center justify-between">
+                        <span class="text-xs text-slate-400 font-medium"><i class="fa-regular fa-clock text-synth-brightCyan mr-1"></i> ${course.duration}</span>
+                        <div class="flex gap-2">
+                            <button onclick="openCourseModal(${course.id})" class="text-xs font-bold text-slate-300 hover:text-white px-2.5 py-1.5 rounded bg-synth-card border border-synth-border">
+                                Ver Programa
+                            </button>
+                            <button onclick="enrollCourse('${course.title}')" class="font-orbitron text-[10px] font-bold bg-synth-cyan hover:bg-cyan-400 text-black px-3 py-1.5 rounded shadow">
+                                INSCRIBIRSE
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCourses() {
+            const searchVal = document.getElementById('searchInput').value;
+            renderCourses(searchVal);
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-synth-cyan', 'to-blue-600', 'text-black', 'font-extrabold');
+                btn.classList.add('bg-synth-darker', 'text-slate-300', 'border', 'border-synth-border');
+            });
+            event.target.classList.remove('bg-synth-darker', 'text-slate-300', 'border', 'border-synth-border');
+            event.target.classList.add('bg-gradient-to-r', 'from-synth-cyan', 'to-blue-600', 'text-black', 'font-extrabold');
+            filterCourses();
+        }
+
+        // Program Details Modal
+        function openCourseModal(courseId) {
+            const course = coursesData.find(c => c.id === courseId);
+            if (!course) return;
+
+            const modalContent = document.getElementById('courseModalContent');
+            modalContent.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 bg-synth-darker text-synth-brightCyan rounded-2xl border border-synth-cyan/40 flex items-center justify-center mx-auto mb-3 text-xl glow-box-cyan">
+                        <i class="fa-solid ${course.icon}"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold text-white uppercase">${course.title}</h3>
+                    <p class="text-xs text-synth-brightCyan mt-1"><i class="fa-regular fa-clock"></i> Duración estimada: ${course.duration}</p>
+                </div>
+                <div class="space-y-3 mb-6">
+                    <h4 class="font-orbitron text-xs text-slate-400 uppercase tracking-widest">Módulos del Programa:</h4>
+                    <ul class="space-y-2">
+                        ${course.program.map(item => `
+                            <li class="bg-synth-darker p-3 rounded-lg border border-synth-border flex items-center gap-3 text-sm text-slate-200">
+                                <i class="fa-solid fa-check text-synth-brightCyan"></i> ${item}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                <button onclick="enrollCourse('${course.title}'); closeCourseModal();" class="w-full font-orbitron text-xs font-bold bg-gradient-to-r from-synth-cyan to-blue-600 text-black py-3 rounded-xl uppercase tracking-wider">
+                    INSCRIBIRSE AHORA EN ESTE OFICIO
+                </button>
+            `;
+            document.getElementById('courseModal').classList.remove('hidden');
+        }
+
+        function closeCourseModal() {
+            document.getElementById('courseModal').classList.add('hidden');
+        }
+
+        // Auth Modal Controls
+        function openModal(tab = 'login') {
+            document.getElementById('authModal').classList.remove('hidden');
+            switchTab(tab);
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function switchTab(tab) {
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+
+            if (tab === 'login') {
+                loginTab.classList.remove('hidden');
+                registerTab.classList.add('hidden');
+            } else {
+                loginTab.classList.add('hidden');
+                registerTab.classList.remove('hidden');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = message;
+            if (isSuccess) {
+                toastIcon.className = 'fa-solid fa-circle-check text-synth-brightCyan text-lg';
+            } else {
+                toastIcon.className = 'fa-solid fa-triangle-exclamation text-amber-400 text-lg';
+            }
+
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, 3500);
+        }
+
+        // Auth Operations
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const name = email.split('@')[0];
+            const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+
+            const user = { name: formattedName, email: email };
+            localStorage.setItem('bf_blm_synth_user', JSON.stringify(user));
+            updateAuthState();
+            closeModal();
+            showToast(`¡Sesión activa! Bienvenido, ${formattedName}.`);
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+
+            const user = { name: name, email: email };
+            localStorage.setItem('bf_blm_synth_user', JSON.stringify(user));
+            updateAuthState();
+            closeModal();
+            showToast(`¡Registro exitoso! Bienvenido a Bridge Forge BLM.`);
+        }
+
+        function logout() {
+            localStorage.removeItem('bf_blm_synth_user');
+            updateAuthState();
+            showToast('Has cerrado la sesión.');
+        }
+
+        function updateAuthState() {
+            const userJson = localStorage.getItem('bf_blm_synth_user');
+            const guestNav = document.getElementById('guestNav');
+            const userNav = document.getElementById('userNav');
+            const mobileAuthContainer = document.getElementById('mobileAuthContainer');
+
+            if (userJson) {
+                const user = JSON.parse(userJson);
+                guestNav.classList.add('hidden');
+                userNav.classList.remove('hidden');
+                userNav.classList.add('flex');
+
+                document.getElementById('userNameDisplay').innerText = user.name;
+                document.getElementById('userAvatar').innerText = user.name.charAt(0).toUpperCase();
+
+                mobileAuthContainer.innerHTML = `
+                    <div class="flex items-center gap-3 py-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-synth-cyan to-synth-purple text-black font-orbitron font-extrabold rounded-md flex items-center justify-center text-sm">
+                            ${user.name.charAt(0).toUpperCase()}
+                        </div>
+                        <span class="font-bold text-slate-200">${user.name}</span>
+                    </div>
+                    <button onclick="logout(); toggleMobileMenu();" class="w-full text-left py-2 text-rose-400 font-bold">
+                        <i class="fa-solid fa-power-off mr-1"></i> SALIR
+                    </button>
+                `;
+            } else {
+                guestNav.classList.remove('hidden');
+                userNav.classList.add('hidden');
+                userNav.classList.remove('flex');
+
+                mobileAuthContainer.innerHTML = `
+                    <button onclick="openModal('login'); toggleMobileMenu();" class="w-full text-center font-bold text-slate-200 py-2 border border-synth-border rounded-xl">
+                        ACCEDER
+                    </button>
+                    <button onclick="openModal('register'); toggleMobileMenu();" class="w-full text-center font-orbitron font-bold text-black bg-synth-cyan py-2 rounded-xl">
+                        REGISTRARSE
+                    </button>
+                `;
+            }
+        }
+
+        function enrollCourse(title) {
+            const userJson = localStorage.getItem('bf_blm_synth_user');
+            if (!userJson) {
+                openModal('login');
+                showToast('Inicia sesión para inscribirte.', false);
+            } else {
+                showToast(`Te has inscrito en: ${title}`);
+            }
+        }
+
+        function handleContact(e) {
+            e.preventDefault();
+            showToast('Mensaje enviado. Te responderemos muy pronto.');
+            e.target.reset();
+        }
+        // Initialize App
+        window.onload = function() {
+            document.getElementById('year').innerText = new Date().getFullYear();
+            renderCourses();
+            updateAuthState();
+        };
+    </script>
+</body>
+</html>
